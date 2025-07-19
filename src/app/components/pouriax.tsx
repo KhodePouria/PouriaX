@@ -45,7 +45,6 @@ export default function Pouriax(){
         const tl = gsap.timeline({
             scrollTrigger: {
                 pin: true, 
-                markers:true,
                 start: '1% top', 
                 end: '+=400', 
                 scrub: 1, 
