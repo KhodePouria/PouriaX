@@ -1,107 +1,72 @@
 "use client"
 import { ScrollTrigger } from 'gsap/all';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import  {useGSAP}  from '@gsap/react'
 import Lenis from 'lenis'
-
+import Image from 'next/image';
+import pfp from '@/app/public/jpeg.jpeg'
 gsap.registerPlugin(ScrollTrigger);
 
 if (typeof window !== 'undefined') {
-    window.addEventListener("load",()=>{
+    // Reset scroll position on page load
+    window.addEventListener("load", () => {
+        window.scrollTo(0, 0);
         ScrollTrigger.refresh();
-    })
+    });
+    
+    // Also reset on beforeunload to ensure clean state
+    window.addEventListener("beforeunload", () => {
+        window.scrollTo(0, 0);
+    });
+    
     const lenis = new Lenis({
         autoRaf: true,
-      });
-      lenis.on('scroll', (e) => {
+    });
+    lenis.on('scroll', (e) => {
         console.log(e);
-      });
-  }
-
-  
-  // Listen for the scroll event and log the event data
-  
-
+    });
+}
 
 export default function Pouriax(){
+    // Reset scroll position on component mount
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    }, []);
 
     const menu = ['Home','About','Skills','Projects','Contact']
 
     const scrollRef1 = useRef(null);
     const scrollRef2 = useRef(null);
 
-    let tl = gsap.timeline({
-        
-        scrollTrigger: {
-            pin: true, 
-            markers:true,
-            // pin the trigger element while active
-            start: 'top top', // when the top of the trigger hits the top of the viewport
-            end: '+=500', // end after scrolling 500px beyond the start
-            scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
-            snap: {
-                snapTo: 'labels', // snap to the closest label in the timeline
-                duration: { min: 1, max: 3 }, // the snap animation should be at least 0.2 seconds, but no more than 3 seconds (determined by velocity)
-                delay: 1, // wait 0.2 seconds from the last scroll event before doing the snapping
-                ease: 'power1.inOut' // the ease of the snap animation ("power3" by default)
-            }
-        }
-    });
-
-    
-
     useGSAP((()=>{
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                pin: true, 
+                markers:true,
+                start: '1% top', 
+                end: '+=400', 
+                scrub: 1, 
+                snap: {
+                    snapTo: 'labels', 
+                    duration: { min: 0.2, max: 2 }, 
+                    delay: 0.2, 
+                    ease: 'power1.inOut' 
+                }
+            }
+        });
 
         tl.addLabel('first').to(scrollRef1.current,{
             x:-800,
             opacity:0,
-            scrollTrigger: {
-                trigger: scrollRef1.current,
-                
-                  },
         }).addLabel('second').fromTo(scrollRef2.current,
-            { x: '45%', opacity: 0 },
+            { x: '150%', opacity: 0 },
             {
               x: '0%',
               opacity: 1,
-              scrollTrigger: {
-            trigger: scrollRef2.current,
-            
-              },
-              
             }) 
-
-        /* const Name = scrollRef1.current;
-        gsap.to(Name,{
-            x:-800,
-            opacity:0,
-            scrollTrigger:{
-                trigger:Name,
-                scrub:true,
-                start:"bottom 10%",
-                end:"bottom -40%",
-                markers:true
-            },
-            ease:"sine.inOut"
-        });
-        const SecondPart = scrollRef2.current;
-        gsap.fromTo(SecondPart,
-            { x: '45%', opacity: 0 },
-            {
-              x: '0%',
-              opacity: 1,
-              scrollTrigger: {
-            trigger: SecondPart,
-            start: 'bottom 40%',
-            end: 'bottom -20%',
-            markers:true,
-            scrub: true,
-              },
-              ease:"sine.inOut"
-            }
-            
-          ); */
         
     }),[]); 
 
@@ -117,13 +82,30 @@ export default function Pouriax(){
                 </div>
             </div>
 
-            <div ref={scrollRef2} className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full px-4 opacity-0">
-                <div className='flex flex-row rounded-[50px] border-2 border-[#708654] p-10 m-100'>
-                    <h1 className='text-3xl'>About</h1><h1 className='text-[#708654] text-3xl'>Me</h1>
-                    <h3 className='text-xl'>I’ve always been drawn to things that let me create — sometimes with guitar, sometimes with drawing, and often with code.
-                    Whether I’m sketching an idea on paper or building it in a browser, it’s all part of the same rhythm: making something out of nothing. That’s what keeps me going.
-                    I like working quietly, thinking deeply, and building tools that (hopefully) make someone’s day a little easier — even if I never know they used it. There’s something beautiful about that.</h3>
+            <div ref={scrollRef2} className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 opacity-0">
+                <div className='flex flex-col md:flex-row items-center justify-center gap-12'>
+                    <div className='flex-shrink-0'>
+                        <Image 
+                            src={pfp} 
+                            alt='A portrait photo' 
+                            width={250} 
+                            height={250} 
+                            className='rounded-full object-cover w-48 h-48 md:w-64 md:h-64 shadow-lg'
+                        />
                     </div>
+                    <div className='flex flex-col gap-4 text-left max-w-md'>
+                        <div className='flex flex-row text-4xl md:text-5xl font-bold ml-2'>
+                        <h2 >
+                            About
+                        </h2>
+                        <h2 className='text-[#92856A] ml-2'>Me</h2>
+                        </div>
+                        
+                        <p className='text-base md:text-lg text-gray-300 leading-relaxed'>
+                            I’ve always been drawn to things that let me create — sometimes with guitar, sometimes with drawing, and often with code. Whether I’m sketching an idea on paper or building it in a browser, it’s all part of the same rhythm: making something out of nothing. That’s what keeps me going.
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <div className="fixed bottom-0 mb-6 sm:mb-8 md:mb-12 w-full text-center px-4">
