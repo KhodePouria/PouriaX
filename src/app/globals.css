@@ -38,6 +38,13 @@
   }
 }
 
+@keyframes scroll {
+  to{
+    transform: translateX(calc(-100% - 30px));
+  }
+  
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -49,3 +56,27 @@ body {
   
 }
 
+.stack-icon {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0),
+    rgba(0,0,0,1) 20%,
+    rgba(0,0,0,1) 80%,
+    rgba(0,0,0,0),
+  );
+}
+
+.stack-icon ul{
+  list-style: none ;
+  display: flex;
+  flex-shrink: 0;
+  min-width: 100%;
+  margin-right: 2rem;
+  justify-content: space-between; /* Changed from space-between to flex-start */
+  align-items: center;
+  gap: 1rem; /* This controls the spacing between icons */
+  animation: scroll 20s linear infinite;
+  
+}
