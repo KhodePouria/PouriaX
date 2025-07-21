@@ -6,16 +6,19 @@ import  {useGSAP}  from '@gsap/react'
 import Lenis from 'lenis'
 import Image from 'next/image';
 import pfp from '@/app/public/jpeg.jpeg'
+
+
+
 gsap.registerPlugin(ScrollTrigger);
 
 if (typeof window !== 'undefined') {
-    // Reset scroll position on page load
+    
     window.addEventListener("load", () => {
         window.scrollTo(0, 0);
         ScrollTrigger.refresh();
     });
     
-    // Also reset on beforeunload to ensure clean state
+    
     window.addEventListener("beforeunload", () => {
         window.scrollTo(0, 0);
     });
@@ -29,17 +32,42 @@ if (typeof window !== 'undefined') {
 }
 
 export default function Pouriax(){
-    // Reset scroll position on component mount
+    
+    
+
+    const menu = ['Home','About','Skills','Projects','Contact']
+    /* const splitedText = SplitText.create(".para",{
+        type:"words",
+    }); */
+    const scrollRef1 = useRef(null);
+
+    const scrollRef2 = useRef<HTMLDivElement>(null);
+
+    const applyoverlaymask = (e: PointerEvent) => {
+        if (!scrollRef2.current) return;
+
+        const rect = scrollRef2.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const secondDiv = scrollRef2.current.querySelector('.second') as HTMLElement;
+        if (secondDiv) {
+            secondDiv.style.setProperty('--x', `${x}px`);
+            secondDiv.style.setProperty('--y', `${y}px`);
+            secondDiv.style.setProperty('opacity', '1');
+        }
+    }
     useEffect(() => {
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
+
+        document.body.addEventListener("pointermove",(e)=>{
+            
+            applyoverlaymask(e);
+        });
+
     }, []);
-
-    const menu = ['Home','About','Skills','Projects','Contact']
-
-    const scrollRef1 = useRef(null);
-    const scrollRef2 = useRef(null);
 
     useGSAP((()=>{
         const tl = gsap.timeline({
@@ -82,7 +110,7 @@ export default function Pouriax(){
             </div>
 
             <div ref={scrollRef2} className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 opacity-0">
-                <div className='flex flex-col md:flex-row items-center justify-center gap-12'>
+                <div className='flex flex-col md:flex-row items-center justify-center gap-12 p-15'>
                     <div className='flex-shrink-0'>
                         <Image 
                             src={pfp} 
@@ -100,7 +128,46 @@ export default function Pouriax(){
                         <h2 className='text-[#92856A] ml-2'>Me</h2>
                         </div>
                         
-                        <p className='text-base md:text-lg text-gray-300 leading-relaxed'>
+                        <p className='para text-base md:text-lg text-gray-300 leading-relaxed'>
+                            I’ve always been drawn to things that let me create — sometimes with guitar, sometimes with drawing, and often with code. Whether I’m sketching an idea on paper or building it in a browser, it’s all part of the same rhythm: making something out of nothing. That’s what keeps me going.
+                        </p>
+                    </div>
+                </div>
+                <div className='second flex flex-col md:flex-row items-center justify-center gap-12 absolute inset-0 bg-transparent p-15 rounded-3xl border-2
+                border-[#ffeabb]' style={{
+                    opacity: "var(--opacity, 0)",
+                    mask: `
+                      radial-gradient(
+                        30rem 30rem at var(--x) var(--y),
+                        #000 0%,
+                        transparent 50%
+                      )`,
+                    WebkitMask: `
+                      radial-gradient(
+                        25rem 25rem at var(--x) var(--y),
+                        #000 1%,
+                        transparent 50%
+                      )`,
+                  }}
+      >
+                    <div className='flex-shrink-0'>
+                    <Image 
+                            src={pfp} 
+                            alt='A portrait photo' 
+                            width={250} 
+                            height={250} 
+                            className='rounded-full object-cover w-48 h-48 ml-2 md:w-64 md:h-64 shadow-lg'
+                        />
+                    </div>
+                    <div className='flex flex-col gap-4 text-left max-w-md text-transparent select-none'>
+                        <div className='flex flex-row text-4xl md:text-5xl font-bold ml-2'>
+                        <h2 >
+                            About
+                        </h2>
+                        <h2 className=' ml-2 text-transparent select-none'>Me</h2>
+                        </div>
+                        
+                        <p className='para text-base md:text-lg leading-relaxed text-transparent select-none'>
                             I’ve always been drawn to things that let me create — sometimes with guitar, sometimes with drawing, and often with code. Whether I’m sketching an idea on paper or building it in a browser, it’s all part of the same rhythm: making something out of nothing. That’s what keeps me going.
                         </p>
                     </div>
