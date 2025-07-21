@@ -34,7 +34,7 @@
     @apply text-transparent bg-clip-text;
     background-image: linear-gradient(270deg, #ff0080, #7928ca, #00ffff, #ffb700, #32cd32, #ff0080);
     background-size: 600% 600%;
-    animation: gradient-slide 30s linear infinite;
+    animation: gradient-slide 12s linear infinite;
   }
 }
 
