@@ -141,7 +141,7 @@ export default function Pouriax(){
                         </div>
                         
                         <p className='para text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed'>
-                            I've always been drawn to things that let me create — sometimes with guitar, sometimes with drawing, and often with code. Whether I'm sketching an idea on paper or building it in a browser, it's all part of the same rhythm: making something out of nothing. That's what keeps me going.
+                            I&apos;ve always been drawn to things that let me create &mdash; sometimes with guitar, sometimes with drawing, and often with code. Whether I&apos;m sketching an idea on paper or building it in a browser, it&apos;s all part of the same rhythm: making something out of nothing. That&apos;s what keeps me going.
                         </p>
                     </div>
                 </div>
@@ -176,7 +176,7 @@ export default function Pouriax(){
                         </div>
                         
                         <p className='para text-sm sm:text-base lg:text-lg leading-relaxed text-transparent select-none'>
-                            I've always been drawn to things that let me create — sometimes with guitar, sometimes with drawing, and often with code. Whether I'm sketching an idea on paper or building it in a browser, it's all part of the same rhythm: making something out of nothing. That's what keeps me going.
+                        I&apos;ve always been drawn to things that let me create &mdash; sometimes with guitar, sometimes with drawing, and often with code. Whether I&apos;m sketching an idea on paper or building it in a browser, it&apos;s all part of the same rhythm: making something out of nothing. That&apos;s what keeps me going.
                         </p>
                     </div>
                 </div>
