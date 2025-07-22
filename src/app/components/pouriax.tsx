@@ -1,14 +1,13 @@
 "use client"
-import { ScrollTrigger } from 'gsap/all';
-import { useRef, useEffect } from 'react';
+import { ScrollTrigger,Flip } from 'gsap/all';
+import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import  {useGSAP}  from '@gsap/react'
 import Lenis from 'lenis'
 import Image from 'next/image';
-import pfp from '@/app/public/jpeg.jpeg'
+import pfp from '@/app/public/jpeg.jpeg';
 
-
-
+gsap.registerPlugin(Flip);
 gsap.registerPlugin(ScrollTrigger);
 
 if (typeof window !== 'undefined') {
@@ -33,17 +32,16 @@ if (typeof window !== 'undefined') {
 
 export default function Pouriax(){
     
-    
-
+    const highlightRef = useRef<HTMLDivElement>(null);
+    const menuRef = useRef<(HTMLDivElement|null)[]>([])
     const menu = ['Home','About','Skills','Projects','Contact']
-    /* const splitedText = SplitText.create(".para",{
-        type:"words",
-    }); */
+    const [active, setActive] = useState('Home');
+
     const scrollRef1 = useRef(null);
-
     const scrollRef2 = useRef<HTMLDivElement>(null);
-
     const scrollRef3 = useRef(null);
+    const scrollRef4 = useRef(null);
+
     const applyoverlaymask = (e: PointerEvent) => {
         if (!scrollRef2.current) return;
 
@@ -64,26 +62,86 @@ export default function Pouriax(){
         document.body.scrollTop = 0;
 
         document.body.addEventListener("pointermove",(e)=>{
-            
             applyoverlaymask(e);
         });
-
+        
+        
     }, []);
+
+    const handleMenuClick = (item: string, index: number) => {
+        setActive(item);
+        
+        // Disable ScrollTrigger temporarily
+        ScrollTrigger.getAll().forEach(trigger => trigger.disable());
+        
+        // Calculate scroll position based on timeline progress
+        const scrollPosition = index * (window.innerHeight );
+        
+        // Smooth scroll to position
+        window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+        });
+        
+        // Re-enable ScrollTrigger after scroll
+        setTimeout(() => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.enable());
+        }, 0);
+    };
+
+    useGSAP(() => {
+        const activeIndex = menu.indexOf(active);
+        const targetItem = menuRef.current[activeIndex];
+        
+        if (!highlightRef.current || !targetItem) return;
+
+        const state = Flip.getState(highlightRef.current);
+        targetItem.appendChild(highlightRef.current);
+
+        gsap.set(menuRef.current, {
+            color: "#BFBFBF"
+        });
+
+        gsap.to(targetItem,{
+            color: "#1E1E1E",
+            duration: 0.25,
+            ease: "power1.out"
+        })
+
+        Flip.from(state,{
+            duration:0.25,
+            ease: "power1.out"
+        })
+
+    },[active]);
 
     useGSAP((()=>{
         const tl = gsap.timeline({
             scrollTrigger: {
-            pin: true, 
-            start: 'top top', 
-            end: '+=1500', 
-            scrub: 1, 
-            snap: {
-                snapTo: 0.5, 
-                duration: { min: 0.2, max: 1}, 
-                delay: 0.1, 
-                ease: 'power1.inOut',
-                directional: false
-            }
+                pin: true, 
+                start: 'top top', 
+                end: '', 
+                scrub: 1, 
+                snap: {
+                    snapTo: 0.333, // Changed to match 4 sections (0, 0.333, 0.666, 1)
+                    duration: { min: 0.2, max: 1}, 
+                    delay: 0.1, 
+                    ease: 'power1.inOut',
+                    directional: false
+                },
+                onUpdate: (self) => {
+                    // Update active menu item based on scroll progress
+                    const progress = self.progress;
+                    let newActive = 'Home';
+                    
+                    if (progress > 0.75) newActive = 'Projects';
+                    else if (progress > 0.5) newActive = 'Skills';
+                    else if (progress > 0.25) newActive = 'About';
+                    
+                    if (newActive !== active) {
+                        setActive(newActive);
+                    }
+                }
             }
         });
 
@@ -105,15 +163,23 @@ export default function Pouriax(){
                 x: '0%',
                 opacity: 1,
             }
+        ).addLabel('thirdback').to(scrollRef3.current, {
+            x: "-50%",
+            opacity: 0,
+        }).addLabel('fourth').fromTo(scrollRef4.current,
+            { x: '50%', opacity: 0 },
+            {
+                x: '0%',
+                opacity: 1,
+            }
         )
         
     }),[]); 
 
-
     return(
         <div className="min-h-[500vh] flex justify-center items-center">
             {/* Pouriax */}
-            <div ref={scrollRef1} 
+            <div ref={scrollRef1} id="Home"
                 className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-full px-4">
                 <div className="flex items-center justify-center select-none">
                     <h1 className="text-6xl sm:text-7xl md:text-8xl font-black hover:cursor-default mb-6 sm:mb-8 md:mb-10">Pouria</h1>
@@ -122,7 +188,7 @@ export default function Pouriax(){
             </div>
 
             {/* about page */}
-            <div ref={scrollRef2} className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl px-4 opacity-0">
+            <div id='About' ref={scrollRef2} className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl px-4 opacity-0">
                 {/* about card */}
                 <div className='flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-12 p-4 sm:p-6 lg:p-15'>
                     <div className='flex-shrink-0'>
@@ -183,7 +249,7 @@ export default function Pouriax(){
             </div>
 
             {/* Skills page */}
-            <div ref={scrollRef3} className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 opacity-0'>
+            <div id='Skills' ref={scrollRef3} className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 opacity-0'>
                   <div className='flex flex-col md:flex-col items-center justify-center gap-12  '>
                       <h1 className='flex flex-row text-xl md:text-3xl '>I create my<p className='text-xl md:text-3xl bg-gradient-to-r animated-gradient-text mr-1/2 ml-1/2 sm:mr-1 sm:ml-1 md:mr-2 md:ml-2'> PROJECTS </p> using these tools:</h1>
                       <div className='flex flex-row stack-icon w-[25rem] md:w-[60rem]'>
@@ -216,14 +282,26 @@ export default function Pouriax(){
                   </div>
                   
             </div>
+
+            {/* Projects page */}
+            <div id='Projects' ref={scrollRef4} className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-4 opacity-0'>
+                <h1 className='text-3xl'>Projects Page</h1>
+            </div>
+
             {/* Nav Bar */}
-            <div className="fixed bottom-0 mb-6 sm:mb-8 md:mb-12 w-full text-center px-4">
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
-                    <a className="text-sm mb-10 sm:text-lg md:text-xl opacity-60 hover:opacity-100 transition-all hover:scale-110 hover:cursor-pointer">{menu.at(0)}</a>
-                    <a className="text-sm mb-10 sm:text-lg md:text-xl opacity-60 hover:opacity-100 transition-all hover:scale-110 hover:cursor-pointer">{menu.at(1)}</a>
-                    <a className="text-sm mb-10 sm:text-lg md:text-xl opacity-60 hover:opacity-100 transition-all hover:scale-110 hover:cursor-pointer">{menu.at(2)}</a>
-                    <a className="text-sm mb-10 sm:text-lg md:text-xl opacity-60 hover:opacity-100 transition-all hover:scale-110 hover:cursor-pointer">{menu.at(3)}</a>
-                    <a className="text-sm mb-10 sm:text-lg md:text-xl opacity-60 hover:opacity-100 transition-all hover:scale-110 hover:cursor-pointer">{menu.at(4)}</a>
+            <div className="fixed bottom-0 mb-6 sm:mb-8 md:mb-12 w-full text-center px-4 z-50">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4">
+                {menu.map((item,index) => (
+                    <div  
+                        ref={(el) => {menuRef.current[index] = el;}}  
+                        onClick={() => handleMenuClick(item, index)} 
+                        className='relative text-sm sm:text-base md:text-lg lg:text-xl text-[#BFBFBF] select-none hover:cursor-pointer px-2 sm:px-3 md:px-4 py-1 sm:py-2' 
+                        key={item}
+                    >
+                        {item}
+                    </div>
+                ))}
+                <div ref={highlightRef} className='absolute z-[-1] rounded-xl sm:rounded-2xl md:rounded-3xl lg:rounded-4xl bg-[#D9D9D9] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%+0.5rem)] sm:w-[calc(100%+0.75rem)] md:w-[calc(100%+1rem)] h-[2rem] sm:h-[2.5rem] md:h-[3rem]'></div>
                 </div>
             </div>
         </div>
