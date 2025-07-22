@@ -59,6 +59,13 @@ body {
 .stack-icon {
   display: flex;
   overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0),
+    rgba(0,0,0,1) 20%,
+    rgba(0,0,0,1) 80%,
+    rgba(0,0,0,0)
+  );
   mask-image: linear-gradient(
     to right,
     rgba(0,0,0,0),
@@ -78,5 +85,8 @@ body {
   align-items: center;
   gap: 1rem; /* This controls the spacing between icons */
   animation: scroll 20s linear infinite;
-  
+}
+
+.stack-icon:hover {
+  animation-play-state: paused;
 }
