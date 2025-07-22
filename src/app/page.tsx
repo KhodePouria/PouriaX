@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Pouriax from "./components/pouriax";
 
 export default function Home() {
