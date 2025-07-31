@@ -1,0 +1,17 @@
+{
+  "tailwindCSS.suggestions": true,
+  "tailwindCSS.experimental.configFile": null,
+  "tailwindCSS.validate": true,
+  "tailwindCSS.hovers": true,
+  "tailwindCSS.colorDecorators": true,
+  "tailwindCSS.includeLanguages": {
+    "typescript": "typescript",
+    "typescriptreact": "typescriptreact"
+  },
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}
