@@ -27,17 +27,32 @@
   50% {
     background-position: 100% 0%;
   }
-  
-}
-@layer utilities {
-  .animated-gradient-text {
-    @apply text-transparent bg-clip-text;
-    background-image: linear-gradient(270deg, #ff0080, #7928ca, #00ffff, #ffb700, #32cd32, #ff0080);
-    background-size: 600% 600%;
-    animation: gradient-slide 12s linear infinite;
+  100% {
+    background-position: 0% 100%;
   }
 }
+.animated-gradient-text {
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(270deg, #ff0080, #7928ca, #00ffff, #ffb700, #32cd32, #ff0080);
+  background-size: 600% 600%;
+  animation: gradient-slide 12s linear infinite;
+}
+.animated-gradient-text1 {
+  color: black;
+  transition: color 0.3s;
+}
 
+.animated-gradient-text1:hover {
+  color: transparent;
+  background-image: linear-gradient(270deg, #ff0080, #7928ca, #00ffff, #ffb700, #32cd32, #ff0080);
+  background-size: 600% 600%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: gradient-slide 12s linear infinite;
+  transition: color 0.3s;
+}
 @keyframes scroll {
   to{
     transform: translateX(calc(-100% - 40px));

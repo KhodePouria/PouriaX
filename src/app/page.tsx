@@ -18,6 +18,7 @@ export default function Home() {
     const [aboutActive, setAboutActive] = useState(false);
 
     const aboutpageRef = useRef(null);
+    const aboutCloseRef = useRef(null);
 
     const scrollRef1 = useRef(null);
     const scrollRef2 = useRef<HTMLDivElement>(null);
@@ -74,28 +75,59 @@ export default function Home() {
         });
     };
 
-    // Show/hide sections based on active menu
-    useGSAP(() => {
-        if(aboutActive){
-            gsap.fromTo(aboutpageRef.current,{
-                width: "2rem",
-                height: "2rem",
-                scale: "1.2",
+    const firstRender = useRef(true);
+    
+    useEffect(() => {
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
+        }
+        
+        if (aboutActive) {
+            gsap.fromTo(aboutpageRef.current, {
+                width: "2.5rem",
+                height: "2.5rem",
+                scale: "1.1",
                 borderRadius: "2rem",
-                },{
-                  width: "16rem",
-                height: "14rem",
+            }, {
+                width: "24rem",
+                height: "2.5rem",
                 scale: "1",
-                borderRadius: "1rem",
+                borderRadius: "3rem",
                 ease: "sine.in",
-                duration:"0.3"
-                });
-            gsap.to("#contactme",{
+                duration: 0.3
+            });
+            gsap.to("#contactme", {
                 opacity: "1",
                 ease: "sine.out",
-                duration:"1"
-            })
+                duration: 1
+            });
+        } else {
+            gsap.fromTo(aboutpageRef.current, {
+                width: "24rem",
+                height: "2.5rem",
+                scale: "1",
+                borderRadius: "3rem",
+                ease: "sine.in",
+                duration: 0.3
+            }, {
+                width: "2.5rem",
+                height: "2.5rem",
+                scale: "1",
+                borderRadius: "2rem",
+            });
+            gsap.to("#contactme", {
+                opacity: "0",
+                ease: "sine.in",
+                duration: 1
+            });
         }
+    }, [aboutActive]);
+
+    // Show/hide sections based on active menu
+    useGSAP(() => {
+        // Play aboutActive animation only once when it becomes true
+        
 
         if (!isInitialized) return;
 
@@ -202,34 +234,24 @@ export default function Home() {
     return(
         <div className="flex items-center justify-center min-h-screen overflow-hidden ">
             {/* about items */}
-            <div className={`fixed top-12 right-[4rem] ${!aboutActive ? 'beat' : ''} z-[60]`}>
+            <div className={`fixed top-12 right-[4rem] ${!aboutActive ? 'beat' : ''} z-[60]  }}`}>
                 <div className='relative group '>
-                    
                     {aboutActive && (
-                        <div id='contactme' className='absolute left-1/2 top-4 -translate-x-1/2 flex flex-col items-center z-10 gap-2 justify-center opacity-0'>
-                            <p className='text-2xl text-[#171717] mb-4'>Reach out:</p>
-                            <a href='https://telegram.com/khodepouria'>
-                                <div className='flex flex-row gap-1'>
-                                <svg fill="#171717" width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M41.4193 7.30899C41.4193 7.30899 45.3046 5.79399 44.9808 9.47328C44.8729 10.9883 43.9016 16.2908 43.1461 22.0262L40.5559 39.0159C40.5559 39.0159 40.3401 41.5048 38.3974 41.9377C36.4547 42.3705 33.5408 40.4227 33.0011 39.9898C32.5694 39.6652 24.9068 34.7955 22.2086 32.4148C21.4531 31.7655 20.5897 30.4669 22.3165 28.9519L33.6487 18.1305C34.9438 16.8319 36.2389 13.8019 30.8426 17.4812L15.7331 27.7616C15.7331 27.7616 14.0063 28.8437 10.7686 27.8698L3.75342 25.7055C3.75342 25.7055 1.16321 24.0823 5.58815 22.459C16.3807 17.3729 29.6555 12.1786 41.4193 7.30899Z" fill="#000000"/></svg>
-                                <p className='text-xl text-[#171717]'>Telegram</p>  
-                            </div>
+                        <div id='contactme' className='select-none absolute left-1/4 top-1 -translate-x-1/5  flex flex-row items-center z-[60] gap-2 justify-center opacity-0'>
+                            <a href='https://t.me/khodepouria'>
+                                <p className='text-xl text-[#171717] animated-gradient-text1'>Telegram</p>  
+                            
                             </a>
                             
                             <a href='https://instagram.com/pouria._.ramezani'>
-                                <div className='flex flex-row gap-1'>
-                                <svg fill="#171717" height="32" width="32" version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" 
-                                    viewBox="0 0 32 32" >
-                                <path d="M23,0H9C4,0,0,4,0,9v6v8c0,5,4,9,9,9h14c5,0,9-4,9-9v-8V9C32,4,28,0,23,0z M16,10c3.3,0,6,2.7,6,6s-2.7,6-6,6s-6-2.7-6-6
-                                    S12.7,10,16,10z M22,7c0-1.1,0.9-2,2-2s2,0.9,2,2s-0.9,2-2,2S22,8.1,22,7z"/>
-                                </svg>
-                                <p className='text-xl text-[#171717]'>Instagram</p>  
+                                <div className='flex flex-row gap-1 '>
+                                <p className='text-xl text-[#171717] animated-gradient-text1'>Instagram</p>  
                             </div>
                             </a>
                             
                             <a href='https://www.linkedin.com/in/pouria-ramezani-79323b298' target="_blank" rel="noopener noreferrer">
-                                <div className='flex flex-row gap-1'>
-                                <svg fill="#171717" width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="M20.47,2H3.53A1.45,1.45,0,0,0,2.06,3.43V20.57A1.45,1.45,0,0,0,3.53,22H20.47a1.45,1.45,0,0,0,1.47-1.43V3.43A1.45,1.45,0,0,0,20.47,2ZM8.09,18.74h-3v-9h3ZM6.59,8.48h0a1.56,1.56,0,1,1,0-3.12,1.57,1.57,0,1,1,0,3.12ZM18.91,18.74h-3V13.91c0-1.21-.43-2-1.52-2A1.65,1.65,0,0,0,12.85,13a2,2,0,0,0-.1.73v5h-3s0-8.18,0-9h3V11A3,3,0,0,1,15.46,9.5c2,0,3.45,1.29,3.45,4.06Z"/></svg>
-                                <p className='text-xl text-[#171717]'>LinkedIn</p>  
+                                <div className='flex flex-row gap-1 '>
+                                <p className='text-xl text-[#171717] animated-gradient-text1'>LinkedIn</p>  
                             </div>
                             </a>
                             
@@ -239,12 +261,13 @@ export default function Home() {
                     {/* White Circle */}
                     <div
                         ref={aboutpageRef}
-                        onClick={() => { setAboutActive(true); }}
-                        className={`z-[60] bg-[#d5d5d5] w-10 h-10 transition-transform ${!aboutActive ? "hover:scale-[1.2] hover:cursor-pointer rounded-[9999px]" : ""}`}
-                    />
+                        onClick={() => { setAboutActive(!aboutActive);} }
+                        className={`z-[50] bg-[#d5d5d5] w-[2.5rem] h-[2.5rem] transition-transform ${!aboutActive ? " rounded-[9999px] hover:cursor-pointer hover:scale-[1.1]" : ""} relative`}
+                    >
+                        
+                    </div>
+                    </div>
                     
-                    
-                </div>
             </div>
             {/* Home Section */}
             <div ref={scrollRef1} id="Home"
