@@ -10,7 +10,7 @@ type project = {
 
 const p_shopify:project = {
     key: 1,
-    name: "Shopify",
+    name: "Shopify Demo",
     descryption: "Just a simple shop app!",
     link: "https://shopify.pouriax.ir",
     
