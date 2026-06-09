@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pouriax.ir/sitemap.xml

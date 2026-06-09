@@ -3,12 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Mouse tracking variables for About section */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --overlay-opacity: 0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-rubik);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -19,18 +23,21 @@
   }
 }
 
-
-@keyframes gradient-slide{
+/* Performance: Use GPU-accelerated properties */
+@keyframes gradient-slide {
   0% {
     background-position: 0% 100%;
   }
+
   50% {
     background-position: 100% 0%;
   }
+
   100% {
     background-position: 0% 100%;
   }
 }
+
 .animated-gradient-text {
   color: transparent;
   background-clip: text;
@@ -38,10 +45,13 @@
   background-image: linear-gradient(270deg, #ff0080, #7928ca, #00ffff, #ffb700, #32cd32, #ff0080);
   background-size: 600% 600%;
   animation: gradient-slide 12s linear infinite;
+  /* GPU acceleration */
+  will-change: background-position;
 }
+
 .animated-gradient-text1 {
   color: black;
-  transition: color 0.3s;
+  transition: color 0.3s ease-out;
 }
 
 .animated-gradient-text1:hover {
@@ -51,62 +61,171 @@
   background-clip: text;
   -webkit-background-clip: text;
   animation: gradient-slide 12s linear infinite;
-  transition: color 0.3s;
 }
+
+/* Optimized scroll animation */
 @keyframes scroll {
-  to{
+  to {
     transform: translateX(calc(-100% - 40px));
   }
-  
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+  /* Prevent layout shift */
+  overflow-x: hidden;
 }
 
-.sticky{
-  position: sticky;
-  
-}
-
+/* Skills icon scroller */
 .stack-icon {
   display: flex;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0,0,0,0),
-    rgba(0,0,0,1) 20%,
-    rgba(0,0,0,1) 80%,
-    rgba(0,0,0,0)
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgba(0,0,0,0),
-    rgba(0,0,0,1) 20%,
-    rgba(0,0,0,1) 80%,
-    rgba(0,0,0,0),
-  );
+  -webkit-mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0));
 }
 
-.stack-icon ul{
-  list-style: none ;
+.stack-icon ul {
+  list-style: none;
   display: flex;
   flex-shrink: 0;
   min-width: 100%;
   margin-right: 2rem;
-  justify-content: space-between; /* Changed from space-between to flex-start */
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem; /* This controls the spacing between icons */
+  gap: 1rem;
   animation: scroll 20s linear infinite;
+  /* GPU acceleration for smoother animation */
+  will-change: transform;
 }
 
-.stack-icon:hover {
+.stack-icon:hover ul {
   animation-play-state: paused;
 }
 
+/* Contact button beat animation */
+@keyframes beat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.beat {
+  animation: beat 2s ease-in-out infinite;
+}
+
+/* Smooth transitions for sections */
 section {
-  height: 100vh;
-  padding: 2rem;
+  /* GPU acceleration for CSS animations */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .stack-icon ul {
+    animation: none;
+  }
+
+  .beat {
+    animation: none;
+  }
+
+  .animated-gradient-text {
+    animation: none;
+    background-position: 0% 0%;
+  }
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* RTL Support */
+html[dir="rtl"] {
+  direction: rtl;
+}
+
+/* RTL scroll animation - reverse direction */
+html[dir="rtl"] .stack-icon ul {
+  animation-direction: reverse;
+  margin-right: 0;
+  margin-left: 2rem;
+}
+
+/* RTL mask gradient - flip horizontally */
+html[dir="rtl"] .stack-icon {
+  -webkit-mask-image: linear-gradient(to left,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to left,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0));
+}
+
+/* Persian font support - use system Persian fonts as fallback */
+html[lang="fa"] {
+  font-family: var(--font-rubik), "Vazirmatn", "Tahoma", "B Nazanin", Arial, sans-serif;
+}
+
+/* Add this to your global.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: white;
+  /* Tailwind's green-500 */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(116, 115, 115);
+  cursor: grab;
+  /* Tailwind's green-600 */
+}
+
+
+
+[data-rmiz-modal-overlay] {
+  background-color: rgba(0, 0, 0, 0.95) !important;
 }

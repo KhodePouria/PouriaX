@@ -1,0 +1,66 @@
+{
+    "metadata": {
+        "title": "PouriaX - Full-Stack Developer & Creative Technologist",
+        "description": "Full-Stack Developer & Creative Technologist specializing in Next.js and modern web development",
+        "keywords": "Pouria Ramezani, PouriaX, Full-Stack Developer, Next.js Developer, React Developer, Web Developer, Frontend Developer, Portfolio"
+    },
+    "navigation": {
+        "home": "Home",
+        "about": "About",
+        "skills": "Skills",
+        "projects": "Projects"
+    },
+    "hero": {
+        "name": "Pouria",
+        "suffix": "X"
+    },
+    "about": {
+        "title": "About",
+        "titleHighlight": "Me",
+        "mainText": "Hey, I'm Pouria. I've been working with different tools and technologies for a few years, but lately my main focus has been web development. For about a year and a half, I've been working with Next.js, during which I've built several projects and worked on applications with relatively scalable structures. My main focus has been on the front-end, though I have some familiarity with back-end concepts as well. I also work with TypeScript and always try to keep learning new things and improving my skills.",
+        "overlayText": "I've always been drawn to things that allow me to create — sometimes with guitar, sometimes through design, and often through code. Whether I'm sketching an idea on paper or implementing it in the browser, it gives me the same feeling: building something from nothing. That feeling is what keeps me motivated to keep going.",
+        "imageAlt": "Pouria Ramazani - Portrait Image"
+    },
+    "skills": {
+        "prefix": "I use",
+        "highlight": "These Tools",
+        "suffix": "to create my projects:"
+    },
+    "projects": {
+        "title": "I worked on these",
+        "titleHighlight": "Projects",
+        "subtitle": "",
+        "items": {
+            "evolearn": {
+                "name": "Evolearn Frontend",
+                "description": "A modern e‑learning platform for programming education.",
+                "moreDesc": "• Developed a scalable frontend architecture for a full‑featured e‑learning platform using Next.js.\n• Built dynamic course interfaces supporting modular lessons and structured learning paths.\n• Implemented responsive landing pages optimized for performance and accessibility.\n• Integrated admin and user panels for content management and course publishing.\n• Applied technical SEO including semantic HTML structure and metadata optimization.\n• Built reusable UI components using Tailwind CSS and shadcn/ui."
+            },
+            "dashboard": {
+                "name": "E‑Commerce Admin Dashboard",
+                "description": "A complex admin dashboard for managing an online shopping platform.",
+                "moreDesc": "• Developed a feature‑rich admin dashboard for managing products, categories, and store data.\n• Implemented complex relational interfaces including product tags and nested database relations.\n• Built advanced data tables supporting editing, filtering, and relational management.\n• Designed scalable UI components capable of handling large datasets.\n• Focused on modular architecture and maintainable component structure."
+            },
+            "carlift": {
+                "name": "Car Lifting Service Website",
+                "description": "A business website designed to generate leads for a roadside assistance company.",
+                "moreDesc": "• Designed and developed a modern website for a vehicle lifting and roadside assistance service.\n• Built a responsive SPA‑style landing page focused on conversion and service clarity.\n• Implemented technical SEO including semantic structure and metadata optimization.\n• Developed a management panel for updating service content.\n• Optimized UX and performance to improve customer acquisition."
+            },
+            "faceai": {
+                "name": "AI Face Detection & Recognition",
+                "description": "A browser‑based application for real‑time face detection using AI.",
+                "moreDesc": "• Built a real‑time face detection and recognition system using JavaScript and AI models.\n• Implemented browser‑based computer vision for detecting faces in images and video streams.\n• Developed an interactive UI for capturing and analyzing facial data.\n• Integrated machine learning models capable of identifying human faces.\n• Optimized processing performance for real‑time browser execution."
+            }
+        }
+    },
+    "contact": {
+        "button": "Contact",
+        "telegram": "Telegram",
+        "instagram": "Instagram",
+        "linkedIn": "LinkedIn"
+    },
+    "language": {
+        "toggle": "فا",
+        "label": "Switch to Persian"
+    }
+}
